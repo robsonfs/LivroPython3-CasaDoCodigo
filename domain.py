@@ -82,21 +82,25 @@ class Column:
         )
         return _str
 
-    def validate(self, data):
-        if self._kind == "bigint":
+    def _validate(kind, data):
+        if kind == "bigint":
             if isinstance(data, int):
                 return True
             return False
-        elif self._kind == "varchar":
+        elif kind == "varchar":
             if isinstance(data, str):
                 return True
             return False
-        elif self._kind == "numeric":
+        elif kind == "numeric":
             try:
                 val = Decimal(data)
             except:
                 return False
             return True
+        else:
+            return False
+
+    validate = staticmethod(_validate)
 
 class PrimaryKey(Column):
     def __init__(self, table, name, kind, description=None):
