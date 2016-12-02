@@ -1,4 +1,5 @@
 from decimal import Decimal
+from custom_exceptions import validate_kind
 
 class DataTable:
     """Representa uma tabela de dados.
@@ -56,7 +57,7 @@ class Column:
     """Representa uma coluna em um DataTable.
 
     Essa classe contém as informações de uma coluna e deve validar um dado de
-    acordo com o tio de dado configurado no construtor.
+    acordo com o tipo de dado configurado no construtor.
 
     Attributes:
         name: Nome da Coluna
@@ -68,7 +69,7 @@ class Column:
 
             Args:
                 name: Nome da Coluna
-                kind: tipo do dado (Varchar, bigint, numeric)
+                kind: tipo do dado (varchar, bigint, numeric)
                 description: Descrição da Coluna
         """
         self._name = name
@@ -98,7 +99,10 @@ class Column:
                 return False
             return True
         else:
-            return False
+            # Eu sei, neste caso eu poderia simplemente lançar uma exceção ao invés
+            # de chamar um método que faz as verificações que já foram feitas aqui....
+            # Mas aqui a didática está prevalecendo sobre a elegancia...
+            validate_kind()
 
     validate = staticmethod(_validate)
 
