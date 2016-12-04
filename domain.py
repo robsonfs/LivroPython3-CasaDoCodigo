@@ -26,6 +26,7 @@ class DataTable:
         self._referenced = []
 
     def add_column(self, name, kind, description=""):
+        self._validate_kind(kind)
         column = Column(name, kind, description=description)
         self._columns.append(column)
         return column
@@ -40,6 +41,10 @@ class DataTable:
         """
         relationship = Relationship(name, self, to, on)
         self._references.append(relationship)
+
+    def _validate_kind(self, kind):
+        if not kind in ('bigint', 'numeric', 'varchar'):
+            raise Exception("Tipo inválido")
 
     def add_referenced(self, name, by, on):
         """Cria uma referência para outra tabela que aponta para essa.
