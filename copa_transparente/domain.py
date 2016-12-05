@@ -25,6 +25,19 @@ class DataTable:
         self._references = []
         self._referenced = []
 
+    def _get_name(self):
+        return self._get_name
+
+    def _set_name(self, _name):
+        self._name = _name
+
+    def _del_name(self):
+        raise AttributeError("Não pode deletar este atributo.")
+
+    name = property(_get_name, _set_name, _del_name)
+    references = property(lambda self: self._references)
+    referenced = property(lambda self: self._referenced)
+
     def add_column(self, name, kind, description=""):
         self._validate_kind(kind)
         column = Column(name, kind, description=description)
@@ -88,7 +101,8 @@ class Column:
         )
         return _str
 
-    def _validate(kind, data):
+    @staticmethod
+    def validate(kind, data):
         if kind == "bigint":
             if isinstance(data, int):
                 return True
@@ -108,8 +122,6 @@ class Column:
             # de chamar um método que faz as verificações que já foram feitas aqui....
             # Mas aqui a didática está prevalecendo sobre a elegancia...
             validate_kind()
-
-    validate = staticmethod(_validate)
 
 class PrimaryKey(Column):
     def __init__(self, table, name, kind, description=None):
