@@ -24,10 +24,5 @@ class QueryFile():
             raise StopIteration
         return data.split(";")
 
-# query = QueryFile("data/data/ExecucaoFinanceira.csv")
-# total = sum(dec(element, 5) for element in query)
-#
-# print("Total gasto: {}".format(total))
-#
-# for n in query:
-#     print(n)
+query = QueryFile("data/data/ExecucaoFinanceira.csv")
+total = sum(dec(element, 5) for element in query)
