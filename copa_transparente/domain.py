@@ -13,17 +13,43 @@ class DataTable:
         column: [Lista de colunas]
         data: [Lista de dados]
     """
-    def __init__(self, name):
+    def __init__(self, name, filename):
         """Constructor
 
             Args:
                 name: nome da tabela
         """
         self._name = name
+        self._c = 0
         self._columns = []
-        self._data = []
         self._references = []
         self._referenced = []
+
+        with open(filename) as data:
+            self._data = data.readlines()
+
+    def __eq__(self, other):
+        return self._name == other._name
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        try:
+            element = self._data[self._c]
+        except IndexError as ie:
+            self._c = 0
+            raise StopIteration
+        self._c += 1
+        return element
+
+    def __len__(self):
+        return len(self._data)
+
+    def __getitem__(self, i):
+        if isinstance(i, int) or isinstance(i, slice):
+            return self._data[i]
+        raise TypeError("Invalid index/slice object '{}'".format(str(i)))
 
     def _get_name(self):
         return self._get_name

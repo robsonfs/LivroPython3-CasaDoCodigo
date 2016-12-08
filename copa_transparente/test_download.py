@@ -20,8 +20,6 @@ class DownloadTest(TestCase):
         response = mock.MagicMock()
         response.read = mock.MagicMock(side_efect=['Data']*2)
 
-
-
         output = mock.MagicMock()
         download_length(response, output, 1024)
 
